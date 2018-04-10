@@ -1,0 +1,13 @@
+﻿@model String
+@using WebApplication2.Models
+
+@using (Html.BeginForm("DeleteBook", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.Partial("_ModalHeader", new ModalHeader { Heading = "Delete Book" })
+    <div class="modal-body form-horizontal">
+        Are you want to delete @Model?
+    </div>
+    @Html.Partial("_ModalFooter", new ModalFooter { SubmitButtonText = "Delete" })
+}
+

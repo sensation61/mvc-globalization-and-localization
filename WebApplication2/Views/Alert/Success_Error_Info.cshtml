@@ -1,0 +1,35 @@
+﻿@using WebApplication2.Helpers
+@using WebApplication2.Models;
+
+@{
+    AlertResult result = TempData[GlobalTypes.Message] as AlertResult;
+
+    if (result?.AlertStatus == AlertStatusId.Success)
+    {
+        <div class="alert alert-success alert-dismissible fade in">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Success!</strong> @result.Description
+        </div>
+    }
+    if (result?.AlertStatus == AlertStatusId.Info)
+    {
+        <div class="alert alert-info alert-dismissible fade in">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Note!</strong> @result.Description
+        </div>
+    }
+    else if (result?.AlertStatus == AlertStatusId.Error)
+    {
+        <div class="alert alert-danger alert-dismissible fade in">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Error!</strong> @result.Description
+        </div>
+    }
+}
+<script type="text/javascript">
+    window.setTimeout(function () {
+        $(".alert").fadeTo(500, 0).slideUp(500, function () {
+            $(this).remove();
+        });
+    }, 4000);
+</script>

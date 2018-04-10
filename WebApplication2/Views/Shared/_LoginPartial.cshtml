@@ -1,0 +1,58 @@
+﻿@using WebApplication2.Helpers
+@using Microsoft.AspNet.Identity
+
+@{
+    var items = new List<SelectListItem>() {
+            new SelectListItem() { Text = "TR", Value = "tr-TR" },
+            new SelectListItem() { Text = "EN", Value = "en-US" },
+            new SelectListItem() { Text = "FR", Value = "fr-FR" },
+    };
+    var culture = Request.Cookies[GlobalTypes.CookieName]?.Value;
+
+    if (culture != null)
+    {
+        var selected = items.SingleOrDefault(item => item.Value.Equals(culture));
+        if (selected != null)
+        {
+            selected.Selected = true;
+        }
+    }
+    else
+    {
+        items.FirstOrDefault().Selected = true;
+        Request.Cookies.Add(new HttpCookie(GlobalTypes.CookieName, items.FirstOrDefault().Value));
+    }
+}
+
+@using (Html.BeginForm("ChangeCulture", "Home", FormMethod.Post, new { id = "ChangeCulture", @class = "navbar-right" }))
+{
+    <ul class="nav navbar-nav navbar-right">
+        @Html.Hidden("controller", Request.RequestContext.RouteData.Values["controller"], new { })
+        @Html.Hidden("action", Request.RequestContext.RouteData.Values["action"], new { })
+        @Html.Hidden("id", Request.RequestContext.RouteData.Values["id"], new { })
+        @Html.Hidden("queryString", Request.QueryString.ToString(), new { })
+        <li>@Html.DropDownList("culture", items, null, new { @class = "drop-language", onchange = "this.form.submit();" })</li>
+    </ul>
+}
+
+@if (Request.IsAuthenticated)
+{
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                @Html.ActionLink(WebApplication2.Resources.Resource.Hello + " " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+            </li>
+            <li><a href="javascript:document.getElementById('logoutForm').submit()">@WebApplication2.Resources.Resource.LogOf</a></li>
+        </ul>
+    }
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li>@Html.ActionLink(WebApplication2.Resources.Resource.Register, "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+        <li>@Html.ActionLink(WebApplication2.Resources.Resource.Login, "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+    </ul>
+}
