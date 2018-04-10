@@ -40,25 +40,6 @@ namespace WebApplication2.Filter
             base.OnActionExecuting(filterContext);
         }
 
-        /*public override void OnResultExecuting(ResultExecutingContext filterContext)
-        {
-            string cultureOnCookie = GetCultureOnCookie(filterContext.HttpContext.Request);
-            if (cultureOnCookie == null)
-            {
-                filterContext.HttpContext.Response.Cookies.Add(new HttpCookie(_cookieLangName, GlobalHelper.CurrentCulture));
-            }
-            else  {
-                string cultureOnURL = filterContext.RouteData.Values.ContainsKey("lang") ?
-                ((string)filterContext.RouteData.Values["lang"]) : GlobalHelper.DefaultCulture;
-
-                if (cultureOnCookie != cultureOnURL)
-                {
-                    filterContext.HttpContext.Response.Cookies.Add(new HttpCookie(_cookieLangName, cultureOnURL));
-                }
-            }
-            base.OnResultExecuting(filterContext);
-        }*/
-
         private void SetCurrentCultureOnThread(string culture)
         {
             if (string.IsNullOrEmpty(culture))

@@ -13,10 +13,6 @@ namespace WebApplication2.Filter
         {
             base.OnAuthorization(filterContext);
 
-            var IsAuthenticated = filterContext.HttpContext.User.Identity.IsAuthenticated;
-
-            var a = filterContext.RequestContext.HttpContext.Request.Cookies;
-
         }
     }
 }
